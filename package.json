@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dhanupandey1/job2020.git"
+    "url": "git+https://github.com/Amaan09/Jobs2020.git"
   },
   "author": "\"Mohammed Amaan\"",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/dhanupandey1/job2020/issues"
+    "url": "https://github.com/Amaan09/Jobs2020/issues"
   },
-  "homepage": "https://github.com/dhanupandey1/job2020#readme",
+  "homepage": "https://github.com/Amaan09/Jobs2020#readme",
   "dependencies": {
     "bcrypt": "^5.0.0",
     "body-parser": "^1.19.0",
