@@ -37,22 +37,20 @@ router.get("/", (req, res, next) => {
 });
 
 // user creating his education details
-router.post("/:userid", (req, res, next) => {
-    const user = new Useredu({
+router.post("/", (req, res, next) => {
+    const userEdu = new Useredu({
         _id: new mongoose.Types.ObjectId(),
-        user: req.params.userid,
-        education: req.body.education
+        user: req.body.user,
+        college: req.body.college,
+        passedYear: req.body.passedYear,
+        graduated: req.body.graduated,
+        graduateSchool: req.body.graduateSchool,
+        durationYears: req.body.durationYears,
+        skills: req.body.skills,
+        certifications: req.body.certifications
     });
-    user.save()
+    userEdu.save()
         .then(result => {
-            User.findById(req.params.userid, function (err, fuser) {
-                if (err)
-                    console.log(err);
-                else {
-                    fuser.user_edu = user;
-                    fuser.save();
-                }
-            });
             res.status(200).send({
                 message: "user edu details stored"
             });

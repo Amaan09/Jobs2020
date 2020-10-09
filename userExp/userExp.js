@@ -1,14 +1,13 @@
 const mongoose = require("mongoose");
 
 const userExpSchema = mongoose.Schema({
-
+    _id: mongoose.Schema.Types.ObjectId,
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
     },
-    _id: mongoose.Schema.Types.ObjectId,
     currEmp: String,
-    Destination: String,
+    destination: String,
     currJobDesc: Boolean,
     currExpMonths: String,
     prevEmp: String,
