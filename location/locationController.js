@@ -35,7 +35,7 @@ router.get("/", (req, res, next) => {
 });
 
 // admin creates the location which required to be filled by the user, employer or the consultant
-router.post("/admin/create", verifyToken, (req, res, next) => {
+router.post("/", verifyToken, (req, res, next) => {
     const location = new Location({
         _id: new mongoose.Types.ObjectId(),
         city: req.body.city,

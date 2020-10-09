@@ -8,8 +8,6 @@ const express = require("express"),
 
 // create an admin 
 router.post("/", verifyToken, (req, res, next) => {
-    var password = req.body.password;
-    var hash = bcrypt.hashSync(password, saltRounds);
     const job = new Job({
         _id: new mongoose.Types.ObjectId(),
         admin: req.body.admin, 
@@ -34,7 +32,7 @@ router.post("/", verifyToken, (req, res, next) => {
         .save()
         .then(result => {
             res.status(200).send({
-                message: "Admin details stored"
+                message: "Job details stored"
             });
         })
         .catch(err => {

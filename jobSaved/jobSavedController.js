@@ -8,8 +8,6 @@ const express = require("express"),
 
 
 router.post("/", verifyToken, (req, res, next) => {
-    var password = req.body.password;
-    var hash = bcrypt.hashSync(password, saltRounds);
     const jobSaved = new JobSaved({
         _id: new mongoose.Types.ObjectId(),
         admin: req.body.admin,
@@ -20,7 +18,7 @@ router.post("/", verifyToken, (req, res, next) => {
         .save()
         .then(result => {
             res.status(200).send({
-                message: "Admin details stored"
+                message: "Job details saved"
             });
         })
         .catch(err => {
