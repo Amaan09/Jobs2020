@@ -1,9 +1,11 @@
 const express = require("express"),
     router = express.Router(),
     mongoose = require("mongoose"),
-    Location = require("./location");
-var verifyToken = require("../auth/verifyToken");
-// Get details of all locations with pagination to get limited records or all records
+    Useredu = require("./userEdu"),
+    User = require("../user/User"),
+    verifyToken = require("../auth/verifyToken");
+
+//  getting users education details with pagination
 router.get("/", (req, res, next) => {
     var page = parseInt(req.query.page);
     var size = req.query.size;
@@ -21,7 +23,7 @@ router.get("/", (req, res, next) => {
     }
     var skip = size * (page - 1);
     var limit = size;
-    Location.find({}, {}, { skip: skip, limit: limit }).sort({ id: -1 })
+    Useredu.find({}, {}, { skip: skip, limit: limit }).sort({ id: -1 })
         .exec()
         .then(docs => {
             res.status(200).send(docs);
@@ -34,20 +36,25 @@ router.get("/", (req, res, next) => {
         });
 });
 
-// admin creates the location which required to be filled by the user, employer or the consultant
-router.post("/admin/create", verifyToken, (req, res, next) => {
-    const location = new Location({
+// user creating his education details
+router.post("/:userid", (req, res, next) => {
+    const user = new Useredu({
         _id: new mongoose.Types.ObjectId(),
-        city: req.body.city,
-        state: req.body.state,
-        pincode: req.body.pincode,
-        country: req.body.country
+        user: req.params.userid,
+        education: req.body.education
     });
-    location
-        .save()
+    user.save()
         .then(result => {
+            User.findById(req.params.userid, function (err, fuser) {
+                if (err)
+                    console.log(err);
+                else {
+                    fuser.user_edu = user;
+                    fuser.save();
+                }
+            });
             res.status(200).send({
-                message: "New location saved"
+                message: "user edu details stored"
             });
         })
         .catch(err => {
@@ -56,11 +63,12 @@ router.post("/admin/create", verifyToken, (req, res, next) => {
         });
 });
 
-//  getting location details by a specific location id
-router.get("/:locationId", (req, res, next) => {
-    const id = req.params.locationId;
-    Location.findById(id).
-        exec()
+
+// getting user education based on specific user id
+router.get("/user/:userId", (req, res, next) => {
+    const id = req.params.userId;
+    Useredu.find({ user: id })
+        .exec()
         .then(doc => {
             console.log(doc);
             if (doc) {
@@ -75,11 +83,33 @@ router.get("/:locationId", (req, res, next) => {
         });
 });
 
-// updating location details
-router.put("/:locationId", verifyToken, (req, res, next) => {
 
-    const id = req.params.locationId;
-    Location.findByIdAndUpdate(id, req.body)
+
+
+
+// getting user education info by his user education id
+router.get("/:userEduId", (req, res, next) => {
+    const id = req.params.userEduId;
+    Useredu.findById(id).
+        exec()
+        .then(doc => {
+            if (doc) {
+                res.status(200).send(doc);
+            } else {
+                res.status(404).send({ message: "No valid entry found for provided Id" });
+            }
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).send({ error: err });
+        });
+});
+
+// updating user education details
+router.put("/:userEduId", verifyToken, (req, res, next) => {
+
+    const id = req.params.userEduId;
+    Useredu.findByIdAndUpdate(id, req.body)
         .exec()
         .then(result => {
             msg: "Updated successfully"
@@ -94,7 +124,7 @@ router.put("/:locationId", verifyToken, (req, res, next) => {
 });
 
 router.get("/pages/count", function (req, res) {
-    Location.countDocuments().exec((err, result) => {
+    Useredu.countDocuments().exec((err, result) => {
         if (err) {
             res.status(404).send({ msg: err });
         } else {
@@ -106,6 +136,5 @@ router.get("/pages/count", function (req, res) {
         }
     });
 });
-
 
 module.exports = router;

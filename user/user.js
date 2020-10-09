@@ -17,12 +17,24 @@ var userSchema = mongoose.Schema({
         line1: String,
         line2: String
     },
+    location: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Location"
+    },
     workExperience: {
         years: String, 
         months: String
     },
     skills: [String],
     resume: String,
+    userEdu: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Useredu'
+    },
+    userExp: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Userexp'
+    },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now }
 });
