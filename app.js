@@ -40,11 +40,20 @@ app.get("/",(req, res) => {
 
 const adminRoutes = require("./admin/adminController"),
     authRoutes = require("./auth/authController"),
-    userRoutes = require("./user/userController");
+    userRoutes = require("./user/userController"),
+    locationRoutes = require("./location/locationController"),
+    jobRoutes = require("./jobPosts/jobPostsController"),
+    jobSavedRoutes = require("./jobSaved/jobSavedController"),
+    jobAppliedRoutes = require("./jobApplied/jobAppliedController");
 
 app.use("/admin", adminRoutes);
 app.use("/login", authRoutes);
 app.use("/user", verifyToken, userRoutes);
+app.use("/location", verifyToken, locationRoutes);
+app.use("/jobs", verifyToken, jobRoutes);
+app.use("/savedjobs", verifyToken, jobSavedRoutes);
+app.use("/appliedjobs", verifyToken, jobAppliedRoutes);
+
 
 app.listen(process.env.PORT || 3000, (req, res) => {
     console.log("Server Started!!!");
