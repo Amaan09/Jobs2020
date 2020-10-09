@@ -1,6 +1,10 @@
 var mongoose = require("mongoose");
 const jobSchema = mongoose.Schema({
     jobId: String,
+    admin: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Admin"
+    }, 
     jobTitle: {
         type: String
     },
@@ -20,10 +24,6 @@ const jobSchema = mongoose.Schema({
     companyInfo: String,
     employmentType: String, 
     industryType: String,
-    location: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Location"
-    }],
     searchKeyword: String,
     jobDescription: String,
     createdAt: { type: Date, default: Date.now },
